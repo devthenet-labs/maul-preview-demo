@@ -9,3 +9,4 @@ fails without one.
 - Add a static "Deployed by patchy" footer to the welcome card (#9).
 - Show the build time in the card footer (#10).
 - Add a subtitle under the welcome heading (#11).
+- Change the card footer to "preview-demo <version>" (#12).
