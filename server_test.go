@@ -67,18 +67,15 @@ func TestCardColour(t *testing.T) {
 }
 
 func TestFooter(t *testing.T) {
-	h := newHandler("test", "test")
+	h := newHandler("abc123def", "test-build")
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, httptest.NewRequest("GET", "/", nil))
 	body := w.Body.String()
-	if !strings.Contains(body, "Deployed by patchy") {
-		t.Fatalf("body=%q", body)
+	if !strings.Contains(body, `<footer class="footer" aria-label="app version">preview-demo abc123def</footer>`) {
+		t.Fatalf("footer missing or wrong: body=%q", body)
 	}
-	if strings.Index(body, "Built:") > strings.Index(body, "Deployed by patchy") {
-		t.Fatalf("footer must appear after build-time marker: body=%q", body)
-	}
-	if !strings.Contains(body, "Deployed by patchy · built test") {
-		t.Fatalf("footer missing build time: body=%q", body)
+	if !strings.Contains(body, ".footer{color:#666;font-size:0.8rem}") {
+		t.Fatalf("footer style missing or wrong: body=%q", body)
 	}
 }
 
