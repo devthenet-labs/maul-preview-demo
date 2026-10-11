@@ -6,7 +6,7 @@ must never be deployed as a preview.**
 
 Routes on port 8080:
 
-- `GET /`: welcome page with the build revision.
+- `GET /`: welcome page with the build revision and a `preview-demo <sha>` footer.
 - `GET /healthz`: `{"status":"ok"}`.
 - `GET /version`: JSON with `sha` and `built`.
 

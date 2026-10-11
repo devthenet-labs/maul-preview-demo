@@ -71,7 +71,7 @@ func TestFooter(t *testing.T) {
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, httptest.NewRequest("GET", "/", nil))
 	body := w.Body.String()
-	if !strings.Contains(body, `<footer class="footer">preview-demo abc123def</footer>`) {
+	if !strings.Contains(body, `<footer class="footer" aria-label="app version">preview-demo abc123def</footer>`) {
 		t.Fatalf("footer missing or wrong: body=%q", body)
 	}
 	if !strings.Contains(body, ".footer{color:#666;font-size:0.8rem}") {
