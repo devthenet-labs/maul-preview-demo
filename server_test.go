@@ -5,11 +5,13 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestRoutes(t *testing.T) {
@@ -71,11 +73,24 @@ func TestFooter(t *testing.T) {
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, httptest.NewRequest("GET", "/", nil))
 	body := w.Body.String()
-	if !strings.Contains(body, `<footer class="footer" aria-label="app version">preview-demo abc123def</footer>`) {
+	year := time.Now().UTC().Year()
+	want := fmt.Sprintf(`<footer class="footer" aria-label="app version">preview-demo abc123def · %d</footer>`, year)
+	if !strings.Contains(body, want) {
 		t.Fatalf("footer missing or wrong: body=%q", body)
 	}
 	if !strings.Contains(body, ".footer{color:#666;font-size:0.8rem}") {
 		t.Fatalf("footer style missing or wrong: body=%q", body)
+	}
+}
+
+func TestFooterYear(t *testing.T) {
+	h := newHandler("abc123def", "test-build")
+	w := httptest.NewRecorder()
+	h.ServeHTTP(w, httptest.NewRequest("GET", "/", nil))
+	body := w.Body.String()
+	want := fmt.Sprintf("· %d</footer>", time.Now().UTC().Year())
+	if !strings.Contains(body, want) {
+		t.Fatalf("footer missing current year: body=%q", body)
 	}
 }
 

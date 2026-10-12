@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"html/template"
 	"net/http"
+	"time"
 )
 
 type version struct {
@@ -22,7 +23,7 @@ var page = template.Must(template.New("home").Parse(`<!doctype html>
 <p>A small, stateless Go app. No accounts, storage, secrets, or outbound requests.</p>
 <p>Revision: <code>{{.SHA}}</code></p><p>Built: <code>{{.Built}}</code></p>
 <nav><a href="/healthz">Health</a> · <a href="/version">Version JSON</a></nav>
-<footer class="footer" aria-label="app version">preview-demo {{.SHA}}</footer>
+<footer class="footer" aria-label="app version">preview-demo {{.SHA}} · {{.Year}}</footer>
 </main></body></html>
 `))
 
@@ -31,7 +32,11 @@ func newHandler(sha, built string) http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /{$}", func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		_ = page.Execute(w, info)
+		data := struct {
+			version
+			Year int
+		}{info, time.Now().UTC().Year()}
+		_ = page.Execute(w, data)
 	})
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
