@@ -11,3 +11,4 @@ fails without one.
 - Add a subtitle under the welcome heading (#11).
 - Change the card footer to "preview-demo <version>" (#12).
 - Style the footer in muted gray, add an `aria-label`, and mention it in the README (#17).
+- Show the current year in the card footer after the version (#18).
