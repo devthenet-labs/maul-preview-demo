@@ -23,7 +23,7 @@ var page = template.Must(template.New("home").Parse(`<!doctype html>
 <p>A small, stateless Go app. No accounts, storage, secrets, or outbound requests.</p>
 <p>Revision: <code>{{.SHA}}</code></p><p>Built: <code>{{.Built}}</code></p>
 <nav><a href="/healthz">Health</a> · <a href="/version">Version JSON</a></nav>
-<footer class="footer" aria-label="app version">preview-demo {{.SHA}} · {{.Year}}</footer>
+<footer class="footer" aria-label="app version">preview-demo {{.SHA}} · {{.Year}} · signed</footer>
 </main></body></html>
 `))
 

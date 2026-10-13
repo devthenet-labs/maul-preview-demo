@@ -74,7 +74,7 @@ func TestFooter(t *testing.T) {
 	h.ServeHTTP(w, httptest.NewRequest("GET", "/", nil))
 	body := w.Body.String()
 	year := time.Now().UTC().Year()
-	want := fmt.Sprintf(`<footer class="footer" aria-label="app version">preview-demo abc123def · %d</footer>`, year)
+	want := fmt.Sprintf(`<footer class="footer" aria-label="app version">preview-demo abc123def · %d · signed</footer>`, year)
 	if !strings.Contains(body, want) {
 		t.Fatalf("footer missing or wrong: body=%q", body)
 	}
@@ -88,9 +88,21 @@ func TestFooterYear(t *testing.T) {
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, httptest.NewRequest("GET", "/", nil))
 	body := w.Body.String()
-	want := fmt.Sprintf("· %d</footer>", time.Now().UTC().Year())
+	want := fmt.Sprintf("· %d · signed</footer>", time.Now().UTC().Year())
 	if !strings.Contains(body, want) {
 		t.Fatalf("footer missing current year: body=%q", body)
+	}
+}
+
+func TestFooterSigned(t *testing.T) {
+	h := newHandler("abc123def", "test-build")
+	w := httptest.NewRecorder()
+	h.ServeHTTP(w, httptest.NewRequest("GET", "/", nil))
+	body := w.Body.String()
+	year := time.Now().UTC().Year()
+	want := fmt.Sprintf(`preview-demo abc123def · %d · signed</footer>`, year)
+	if !strings.Contains(body, want) {
+		t.Fatalf("footer missing signed suffix: body=%q", body)
 	}
 }
 
