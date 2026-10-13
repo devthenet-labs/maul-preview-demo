@@ -12,3 +12,4 @@ fails without one.
 - Change the card footer to "preview-demo <version>" (#12).
 - Style the footer in muted gray, add an `aria-label`, and mention it in the README (#17).
 - Show the current year in the card footer after the version (#18).
+- Sign the published agent image with the KMS key (#19).
