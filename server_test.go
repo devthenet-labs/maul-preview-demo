@@ -26,6 +26,7 @@ func TestRoutes(t *testing.T) {
 		{"GET", "/healthz", "application/json", `{"status":"ok"}`, 200},
 		{"GET", "/version", "application/json", `"sha":"0123456789abcdef"`, 200},
 		{"GET", "/id", "application/json", `"id":"`, 200},
+		{"GET", "/semver?v=v1.2.3", "application/json", `"valid":true`, 200},
 		{"GET", "/missing", "text/plain; charset=utf-8", "404", 404},
 		{"POST", "/healthz", "text/plain; charset=utf-8", "Method Not Allowed", 405},
 	} {
@@ -81,6 +82,37 @@ func TestID(t *testing.T) {
 	first, second := call(), call()
 	if first == second {
 		t.Fatalf("expected two different ids, got %q twice", first)
+	}
+}
+
+func TestSemver(t *testing.T) {
+	h := newHandler("test", "test")
+	call := func(query string) semverResponse {
+		w := httptest.NewRecorder()
+		h.ServeHTTP(w, httptest.NewRequest("GET", "/semver"+query, nil))
+		if w.Code != http.StatusOK || w.Header().Get("Content-Type") != "application/json" {
+			t.Fatalf("response: status=%d type=%q", w.Code, w.Header().Get("Content-Type"))
+		}
+		var got semverResponse
+		if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
+			t.Fatalf("unmarshal: %v, body=%q", err, w.Body.String())
+		}
+		return got
+	}
+	for _, tc := range []struct {
+		query string
+		want  semverResponse
+	}{
+		{"?v=v1.2.3", semverResponse{Valid: true, Canonical: "v1.2.3"}},
+		{"?v=v1.2", semverResponse{Valid: true, Canonical: "v1.2.0"}},
+		{"?v=1.2.3", semverResponse{Valid: false, Canonical: ""}},
+		{"", semverResponse{Valid: false, Canonical: ""}},
+	} {
+		t.Run(tc.query, func(t *testing.T) {
+			if got := call(tc.query); got != tc.want {
+				t.Fatalf("got=%+v, want=%+v", got, tc.want)
+			}
+		})
 	}
 }
 

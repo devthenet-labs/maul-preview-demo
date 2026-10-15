@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"golang.org/x/mod/semver"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
@@ -25,6 +26,11 @@ type version struct {
 
 type idResponse struct {
 	ID string `json:"id"`
+}
+
+type semverResponse struct {
+	Valid     bool   `json:"valid"`
+	Canonical string `json:"canonical"`
 }
 
 var page = template.Must(template.New("home").Parse(`<!doctype html>
@@ -62,6 +68,15 @@ func newHandler(sha, built string) http.Handler {
 	mux.HandleFunc("GET /id", func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		_ = json.NewEncoder(w).Encode(idResponse{ID: uuid.New().String()})
+	})
+	mux.HandleFunc("GET /semver", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		v := r.URL.Query().Get("v")
+		resp := semverResponse{Valid: semver.IsValid(v)}
+		if resp.Valid {
+			resp.Canonical = semver.Canonical(v)
+		}
+		_ = json.NewEncoder(w).Encode(resp)
 	})
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Content-Type-Options", "nosniff")

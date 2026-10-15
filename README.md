@@ -10,11 +10,13 @@ Routes on port 8080:
 - `GET /healthz`: `{"status":"ok"}`.
 - `GET /version`: JSON with `sha` and `built`.
 - `GET /id`: `{"id":"<uuid>"}`, a fresh random (v4) UUID.
+- `GET /semver?v=<version>`: `{"valid": bool, "canonical": string}`, using golang.org/x/mod/semver; canonical is empty when invalid.
 
 ## Develop
 
 Use Go 1.26.6. The external Go dependencies are `github.com/google/uuid` v1.6.0 (used
-by `/id`) and `golang.org/x/text` v0.43.0 (used to title-case the welcome greeting).
+by `/id`), `golang.org/x/text` v0.43.0 (used to title-case the welcome greeting), and
+`golang.org/x/mod` v0.42.0 (used by `/semver`).
 
 ```sh
 go vet ./...
