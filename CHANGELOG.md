@@ -16,4 +16,4 @@ fails without one.
 - Add "signed" to the card footer after the year (#20).
 - Add a `GET /id` endpoint returning a random UUID (#21).
 - Title-case the welcome greeting with golang.org/x/text/cases (#22).
-- Add a GET /semver endpoint validating versions with golang.org/x/mod/semver (#29).
+- Add a GET /semver endpoint validating versions with golang.org/x/mod/semver (#23).
