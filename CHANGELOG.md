@@ -17,3 +17,4 @@ fails without one.
 - Add a `GET /id` endpoint returning a random UUID (#21).
 - Title-case the welcome greeting with golang.org/x/text/cases (#22).
 - Add a GET /semver endpoint validating versions with golang.org/x/mod/semver (#23).
+- Add a GET /slug endpoint using github.com/gosimple/slug (#24).
