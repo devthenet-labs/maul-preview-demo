@@ -10,7 +10,13 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
+
+const greeting = "Hello from patchy"
+
+var greetingTitle = cases.Title(language.English).String(greeting)
 
 type version struct {
 	SHA   string `json:"sha"`
@@ -24,7 +30,7 @@ type idResponse struct {
 var page = template.Must(template.New("home").Parse(`<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Patchy preview demo</title>
-<style>.card{background-color:#7c3aed;color:#fff;padding:1.5rem;border-radius:0.5rem;font-family:sans-serif}.subtitle{font-size:0.85rem;opacity:.85;margin:.15rem 0 1rem}.footer{color:#666;font-size:0.8rem}</style></head><body><main class="card"><h1>Hello from patchy</h1>
+<style>.card{background-color:#7c3aed;color:#fff;padding:1.5rem;border-radius:0.5rem;font-family:sans-serif}.subtitle{font-size:0.85rem;opacity:.85;margin:.15rem 0 1rem}.footer{color:#666;font-size:0.8rem}</style></head><body><main class="card"><h1>{{.Greeting}}</h1>
 <p class="subtitle">Previewed by patchy, one pull request at a time.</p>
 <p>A small, stateless Go app. No accounts, storage, secrets, or outbound requests.</p>
 <p>Revision: <code>{{.SHA}}</code></p><p>Built: <code>{{.Built}}</code></p>
@@ -40,8 +46,9 @@ func newHandler(sha, built string) http.Handler {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		data := struct {
 			version
-			Year int
-		}{info, time.Now().UTC().Year()}
+			Year     int
+			Greeting string
+		}{info, time.Now().UTC().Year(), greetingTitle}
 		_ = page.Execute(w, data)
 	})
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {

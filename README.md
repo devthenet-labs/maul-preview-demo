@@ -13,7 +13,8 @@ Routes on port 8080:
 
 ## Develop
 
-Use Go 1.26.6. The only external Go dependency is `github.com/google/uuid` v1.6.0, used by `/id`.
+Use Go 1.26.6. The external Go dependencies are `github.com/google/uuid` v1.6.0 (used
+by `/id`) and `golang.org/x/text` v0.43.0 (used to title-case the welcome greeting).
 
 ```sh
 go vet ./...
