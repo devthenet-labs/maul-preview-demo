@@ -116,6 +116,38 @@ func TestSemver(t *testing.T) {
 	}
 }
 
+func TestSlug(t *testing.T) {
+	h := newHandler("test", "test")
+	call := func(query string) slugResponse {
+		w := httptest.NewRecorder()
+		h.ServeHTTP(w, httptest.NewRequest("GET", "/slug"+query, nil))
+		if w.Code != http.StatusOK || w.Header().Get("Content-Type") != "application/json" {
+			t.Fatalf("response: status=%d type=%q", w.Code, w.Header().Get("Content-Type"))
+		}
+		var got slugResponse
+		if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
+			t.Fatalf("unmarshal: %v, body=%q", err, w.Body.String())
+		}
+		return got
+	}
+	for _, tc := range []struct {
+		query string
+		want  slugResponse
+	}{
+		{"?s=Hello+World", slugResponse{Slug: "hello-world"}},
+		{"?s=Hello%20World%21", slugResponse{Slug: "hello-world"}},
+		{"?s=Already-A-Slug", slugResponse{Slug: "already-a-slug"}},
+		{"?s=", slugResponse{Slug: ""}},
+		{"", slugResponse{Slug: ""}},
+	} {
+		t.Run(tc.query, func(t *testing.T) {
+			if got := call(tc.query); got != tc.want {
+				t.Fatalf("got=%+v, want=%+v", got, tc.want)
+			}
+		})
+	}
+}
+
 func TestCardColour(t *testing.T) {
 	h := newHandler("test", "test")
 	w := httptest.NewRecorder()

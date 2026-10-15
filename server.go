@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/gosimple/slug"
 	"golang.org/x/mod/semver"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
@@ -31,6 +32,10 @@ type idResponse struct {
 type semverResponse struct {
 	Valid     bool   `json:"valid"`
 	Canonical string `json:"canonical"`
+}
+
+type slugResponse struct {
+	Slug string `json:"slug"`
 }
 
 var page = template.Must(template.New("home").Parse(`<!doctype html>
@@ -77,6 +82,11 @@ func newHandler(sha, built string) http.Handler {
 			resp.Canonical = semver.Canonical(v)
 		}
 		_ = json.NewEncoder(w).Encode(resp)
+	})
+	mux.HandleFunc("GET /slug", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		s := r.URL.Query().Get("s")
+		_ = json.NewEncoder(w).Encode(slugResponse{Slug: slug.Make(s)})
 	})
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Content-Type-Options", "nosniff")
