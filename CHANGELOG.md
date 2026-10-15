@@ -14,3 +14,4 @@ fails without one.
 - Show the current year in the card footer after the version (#18).
 - Sign the published agent image with the KMS key (#19).
 - Add "signed" to the card footer after the year (#20).
+- Add a `GET /id` endpoint returning a random UUID (#21).

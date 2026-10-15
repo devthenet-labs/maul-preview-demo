@@ -12,6 +12,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 func TestRoutes(t *testing.T) {
@@ -23,6 +25,7 @@ func TestRoutes(t *testing.T) {
 		{"GET", "/", "text/html; charset=utf-8", "Hello from patchy", 200},
 		{"GET", "/healthz", "application/json", `{"status":"ok"}`, 200},
 		{"GET", "/version", "application/json", `"sha":"0123456789abcdef"`, 200},
+		{"GET", "/id", "application/json", `"id":"`, 200},
 		{"GET", "/missing", "text/plain; charset=utf-8", "404", 404},
 		{"POST", "/healthz", "text/plain; charset=utf-8", "Method Not Allowed", 405},
 	} {
@@ -55,6 +58,29 @@ func TestVersionAndEscaping(t *testing.T) {
 	h.ServeHTTP(w, httptest.NewRequest("GET", "/", nil))
 	if strings.Contains(w.Body.String(), "<script>") || !strings.Contains(w.Body.String(), "&lt;script&gt;") {
 		t.Fatal("metadata was not HTML-escaped")
+	}
+}
+
+func TestID(t *testing.T) {
+	h := newHandler("test", "test")
+	call := func() string {
+		w := httptest.NewRecorder()
+		h.ServeHTTP(w, httptest.NewRequest("GET", "/id", nil))
+		if w.Code != http.StatusOK || w.Header().Get("Content-Type") != "application/json" {
+			t.Fatalf("response: status=%d type=%q", w.Code, w.Header().Get("Content-Type"))
+		}
+		var got idResponse
+		if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
+			t.Fatalf("unmarshal: %v, body=%q", err, w.Body.String())
+		}
+		if _, err := uuid.Parse(got.ID); err != nil {
+			t.Fatalf("not a valid uuid: %q: %v", got.ID, err)
+		}
+		return got.ID
+	}
+	first, second := call(), call()
+	if first == second {
+		t.Fatalf("expected two different ids, got %q twice", first)
 	}
 }
 

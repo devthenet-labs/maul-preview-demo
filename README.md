@@ -9,10 +9,11 @@ Routes on port 8080:
 - `GET /`: welcome page with the build revision and a `preview-demo <sha> · <year> · signed` footer.
 - `GET /healthz`: `{"status":"ok"}`.
 - `GET /version`: JSON with `sha` and `built`.
+- `GET /id`: `{"id":"<uuid>"}`, a fresh random (v4) UUID.
 
 ## Develop
 
-Use Go 1.26.6; there are no external Go dependencies.
+Use Go 1.26.6. The only external Go dependency is `github.com/google/uuid` v1.6.0, used by `/id`.
 
 ```sh
 go vet ./...

@@ -8,11 +8,17 @@ import (
 	"html/template"
 	"net/http"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type version struct {
 	SHA   string `json:"sha"`
 	Built string `json:"built"`
+}
+
+type idResponse struct {
+	ID string `json:"id"`
 }
 
 var page = template.Must(template.New("home").Parse(`<!doctype html>
@@ -45,6 +51,10 @@ func newHandler(sha, built string) http.Handler {
 	mux.HandleFunc("GET /version", func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		_ = json.NewEncoder(w).Encode(info)
+	})
+	mux.HandleFunc("GET /id", func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(idResponse{ID: uuid.New().String()})
 	})
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Content-Type-Options", "nosniff")
