@@ -23,7 +23,7 @@ func TestRoutes(t *testing.T) {
 		status                              int
 	}{
 		{"GET", "/", "text/html; charset=utf-8", "Hello From Patchy", 200},
-		{"GET", "/healthz", "application/json", `{"status":"ok"}`, 200},
+		{"GET", "/healthz", "application/json", `{"ok":true}`, 200},
 		{"GET", "/version", "application/json", `"sha":"0123456789abcdef"`, 200},
 		{"GET", "/id", "application/json", `"id":"`, 200},
 		{"GET", "/semver?v=v1.2.3", "application/json", `"valid":true`, 200},
