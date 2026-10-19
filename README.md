@@ -7,7 +7,7 @@ must never be deployed as a preview.**
 Routes on port 8080:
 
 - `GET /`: welcome page with the build revision and a `preview-demo <sha> · <year> · signed` footer.
-- `GET /healthz`: `{"status":"ok"}`.
+- `GET /healthz`: `{"ok":true}`.
 - `GET /version`: JSON with `sha` and `built`.
 - `GET /id`: `{"id":"<uuid>"}`, a fresh random (v4) UUID.
 - `GET /semver?v=<version>`: `{"valid": bool, "canonical": string}`, using golang.org/x/mod/semver; canonical is empty when invalid.
