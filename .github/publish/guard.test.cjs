@@ -7,7 +7,7 @@ const {validate, REPO_ID, OWNER_ID} = require('./guard.cjs');
 const sha = 'a'.repeat(40);
 
 function fixture(kind = 'runtime', event = 'pull_request') {
-  const repo = {id: REPO_ID, owner: {id: OWNER_ID}, full_name: 'devthenet-labs/patchy-preview-demo', fork: false, default_branch: 'main'};
+  const repo = {id: REPO_ID, owner: {id: OWNER_ID}, full_name: 'devthenet-labs/maul-preview-demo', fork: false, default_branch: 'main'};
   const path = kind === 'runtime' ? '.github/workflows/ci.yml' : '.github/workflows/agent-image.yml';
   return [repo, {repository: repo, head_repository: repo, status: 'completed', conclusion: 'success',
     head_sha: sha, workflow_id: 5, path, event, head_branch: 'main', run_attempt: 1, pull_requests: [{number: 3}]},

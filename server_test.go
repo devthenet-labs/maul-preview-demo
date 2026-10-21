@@ -22,7 +22,7 @@ func TestRoutes(t *testing.T) {
 		method, path, contentType, contains string
 		status                              int
 	}{
-		{"GET", "/", "text/html; charset=utf-8", "Hello From Patchy", 200},
+		{"GET", "/", "text/html; charset=utf-8", "Hello From Maul", 200},
 		{"GET", "/healthz", "application/json", `{"ok":true}`, 200},
 		{"GET", "/version", "application/json", `"sha":"0123456789abcdef"`, 200},
 		{"GET", "/id", "application/json", `"id":"`, 200},
@@ -153,7 +153,7 @@ func TestCardColour(t *testing.T) {
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, httptest.NewRequest("GET", "/", nil))
 	body := w.Body.String()
-	if !strings.Contains(body, "Hello From Patchy") || !strings.Contains(body, "#7c3aed") {
+	if !strings.Contains(body, "Hello From Maul") || !strings.Contains(body, "#7c3aed") {
 		t.Fatalf("body=%q", body)
 	}
 }
@@ -201,11 +201,11 @@ func TestSubtitle(t *testing.T) {
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, httptest.NewRequest("GET", "/", nil))
 	body := w.Body.String()
-	const subtitle = "Previewed by patchy, one pull request at a time."
+	const subtitle = "Previewed by maul, one pull request at a time."
 	if !strings.Contains(body, subtitle) {
 		t.Fatalf("missing subtitle: body=%q", body)
 	}
-	headingIdx := strings.Index(body, "Hello From Patchy")
+	headingIdx := strings.Index(body, "Hello From Maul")
 	subtitleIdx := strings.Index(body, subtitle)
 	bodyParaIdx := strings.Index(body, "A small, stateless Go app")
 	if headingIdx < 0 || subtitleIdx < 0 || bodyParaIdx < 0 || !(headingIdx < subtitleIdx && subtitleIdx < bodyParaIdx) {
@@ -221,10 +221,10 @@ func TestGreetingTitleCase(t *testing.T) {
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, httptest.NewRequest("GET", "/", nil))
 	body := w.Body.String()
-	if !strings.Contains(body, "<h1>Hello From Patchy</h1>") {
+	if !strings.Contains(body, "<h1>Hello From Maul</h1>") {
 		t.Fatalf("greeting not title-cased: body=%q", body)
 	}
-	if strings.Contains(body, "Hello from patchy") {
+	if strings.Contains(body, "Hello from maul") {
 		t.Fatalf("expected title-cased greeting, found original casing: body=%q", body)
 	}
 }

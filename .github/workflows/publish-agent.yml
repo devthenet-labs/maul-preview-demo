@@ -24,7 +24,7 @@ jobs:
     env:
       AGENT_SIGNING_KEY: ${{ vars.AGENT_SIGNING_KEY }}
       ECR_REGISTRY: 377946145366.dkr.ecr.us-east-1.amazonaws.com
-      IMAGE_REPOSITORY: patchy/app-envs/patchy-preview-demo
+      IMAGE_REPOSITORY: maul/app-envs/maul-preview-demo
     steps:
       - name: Checkout trusted publisher only, never PR source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

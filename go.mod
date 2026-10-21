@@ -1,4 +1,4 @@
-module github.com/devthenet-labs/patchy-preview-demo
+module github.com/devthenet-labs/maul-preview-demo
 
 go 1.26.0
 
