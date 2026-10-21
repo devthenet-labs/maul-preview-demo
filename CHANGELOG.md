@@ -19,3 +19,4 @@ fails without one.
 - Add a GET /semver endpoint validating versions with golang.org/x/mod/semver (#23).
 - Add a GET /slug endpoint using github.com/gosimple/slug (#24).
 - Change the GET /healthz response body to {"ok": true} (#26).
+- Move to maul: `.maul/`, the `maul/` ECR repositories, the maul agent base (#27).
