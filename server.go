@@ -16,7 +16,7 @@ import (
 	"golang.org/x/text/language"
 )
 
-const greeting = "Hello from patchy"
+const greeting = "Hello from maul"
 
 var greetingTitle = cases.Title(language.English).String(greeting)
 
@@ -40,9 +40,9 @@ type slugResponse struct {
 
 var page = template.Must(template.New("home").Parse(`<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>Patchy preview demo</title>
+<title>Maul preview demo</title>
 <style>.card{background-color:#7c3aed;color:#fff;padding:1.5rem;border-radius:0.5rem;font-family:sans-serif}.subtitle{font-size:0.85rem;opacity:.85;margin:.15rem 0 1rem}.footer{color:#666;font-size:0.8rem}</style></head><body><main class="card"><h1>{{.Greeting}}</h1>
-<p class="subtitle">Previewed by patchy, one pull request at a time.</p>
+<p class="subtitle">Previewed by maul, one pull request at a time.</p>
 <p>A small, stateless Go app. No accounts, storage, secrets, or outbound requests.</p>
 <p>Revision: <code>{{.SHA}}</code></p><p>Built: <code>{{.Built}}</code></p>
 <nav><a href="/healthz">Health</a> · <a href="/version">Version JSON</a></nav>

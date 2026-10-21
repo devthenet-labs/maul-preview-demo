@@ -3,5 +3,5 @@
 !go.sum
 !*.go
 !Dockerfile
-!.patchy
-!.patchy/Dockerfile
+!.maul
+!.maul/Dockerfile

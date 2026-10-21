@@ -6,8 +6,8 @@ set -euo pipefail
 [[ "$IMAGE_DIGEST" =~ ^sha256:[a-f0-9]{64}$ ]]
 registry=377946145366.dkr.ecr.us-east-1.amazonaws.com
 case "$IMAGE_KIND" in
-  runtime) repository=patchy/previews/patchy-preview-demo; tag="sha-$IMAGE_SHA" ;;
-  agent) repository=patchy/app-envs/patchy-preview-demo; tag=toolchain-v1 ;;
+  runtime) repository=maul/previews/maul-preview-demo; tag="sha-$IMAGE_SHA" ;;
+  agent) repository=maul/app-envs/maul-preview-demo; tag=toolchain-v1 ;;
   *) exit 1 ;;
 esac
 # A different image at an immutable tag is a hard failure, never an overwrite.

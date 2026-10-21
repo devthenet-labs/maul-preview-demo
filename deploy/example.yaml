@@ -1,4 +1,4 @@
-# Runtime contract example only. Patchy's preview-controller, not this app,
+# Runtime contract example only. Maul's preview-controller, not this app,
 # renders and owns the slot Deployment, Service and Ingress. Do not kubectl apply.
 apiVersion: apps/v1
 kind: Deployment
@@ -21,7 +21,7 @@ spec:
       containers:
         - name: demo
           # Replace only with the controller-validated 40-hex revision.
-          image: 377946145366.dkr.ecr.us-east-1.amazonaws.com/patchy/previews/patchy-preview-demo:sha-0000000000000000000000000000000000000000
+          image: 377946145366.dkr.ecr.us-east-1.amazonaws.com/maul/previews/maul-preview-demo:sha-0000000000000000000000000000000000000000
           ports: [{name: http, containerPort: 8080}]
           securityContext:
             allowPrivilegeEscalation: false

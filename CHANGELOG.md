@@ -6,7 +6,7 @@ fails without one.
 ## Unreleased
 
 - Add this changelog and the `changelog` pull-request check (#8).
-- Add a static "Deployed by patchy" footer to the welcome card (#9).
+- Add a static "Deployed by maul" footer to the welcome card (#9).
 - Show the build time in the card footer (#10).
 - Add a subtitle under the welcome heading (#11).
 - Change the card footer to "preview-demo <version>" (#12).

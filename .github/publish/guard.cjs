@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 'use strict';
 
-const REPO = 'patchy-preview-demo';
+const REPO = 'maul-preview-demo';
 const OWNER = 'devthenet-labs';
 // GitHub's immutable repository ID, read back from the API at creation.
 const REPO_ID = 1391236194;

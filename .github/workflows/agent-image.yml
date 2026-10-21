@@ -2,7 +2,7 @@ name: agent image
 on:
   push:
     branches: [main]
-    paths: ['.patchy/**', 'go.mod', '.dockerignore', '.github/workflows/agent-image.yml']
+    paths: ['.maul/**', 'go.mod', '.dockerignore', '.github/workflows/agent-image.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -20,7 +20,7 @@ jobs:
         run: |
           test -z "${ACTIONS_ID_TOKEN_REQUEST_URL:-}"
           docker buildx build --platform linux/amd64 --provenance=false --sbom=false \
-            -f .patchy/Dockerfile --output "type=oci,dest=$RUNNER_TEMP/agent.oci.tar" .
+            -f .maul/Dockerfile --output "type=oci,dest=$RUNNER_TEMP/agent.oci.tar" .
           python3 .github/publish/validate_oci.py "$RUNNER_TEMP/agent.oci.tar" "$RUNNER_TEMP/agent-validated" agent
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:

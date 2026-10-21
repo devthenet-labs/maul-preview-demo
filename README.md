@@ -1,7 +1,7 @@
-# patchy-preview-demo
+# maul-preview-demo
 
-A small, benign Go app for patchy's isolated previews. No accounts, storage,
-secrets or outbound requests. **The deliberately vulnerable `patchy-target`
+A small, benign Go app for maul's isolated previews. No accounts, storage,
+secrets or outbound requests. **The deliberately vulnerable `maul-target`
 must never be deployed as a preview.**
 
 Routes on port 8080:
@@ -31,14 +31,14 @@ python3 -m unittest discover -s .github/publish -p 'test_*.py'
 The root Dockerfile builds a static, non-root `scratch` runtime. For local use:
 
 ```sh
-docker build -t patchy-preview-demo:local .
+docker build -t maul-preview-demo:local .
 docker run --rm --read-only --cap-drop ALL --security-opt no-new-privileges \
-  -p 127.0.0.1:8080:8080 patchy-preview-demo:local
+  -p 127.0.0.1:8080:8080 maul-preview-demo:local
 ```
 
-`.patchy/Dockerfile` is a different image: patchy's agent base plus the pinned
+`.maul/Dockerfile` is a different image: maul's agent base plus the pinned
 Go toolchain, with no application source baked in. It can vet and test this
-stdlib-only app offline in patchy's sandbox. `.patchy/agent.yaml` declares its
+stdlib-only app offline in maul's sandbox. `.maul/agent.yaml` declares its
 immutable `toolchain-v1` tag. Publication requires the separately approved ECR
 and OIDC infrastructure; the tag does not exist yet during bootstrap.
 

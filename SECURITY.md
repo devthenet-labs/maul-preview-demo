@@ -1,15 +1,15 @@
 # Build and publication boundary
 
 This is a benign, stateless preview app, not the deliberately vulnerable
-`patchy-target`. It has no accounts, secrets, database, filesystem writes or
+`maul-target`. It has no accounts, secrets, database, filesystem writes or
 outbound requests. It serves a welcome page, `/healthz` and `/version` on 8080.
 
 ## Two different images, two different roles
 
 | Image | Source | Destination | Trusted reusable publisher |
 | --- | --- | --- | --- |
-| Runtime | PR head, or main | `patchy/previews/patchy-preview-demo:sha-<40hex>` | `publish-runtime.yml` |
-| Agent toolchain | main only | `patchy/app-envs/patchy-preview-demo:toolchain-v1` | `publish-agent.yml` |
+| Runtime | PR head, or main | `maul/previews/maul-preview-demo:sha-<40hex>` | `publish-runtime.yml` |
+| Agent toolchain | main only | `maul/app-envs/maul-preview-demo:toolchain-v1` | `publish-agent.yml` |
 
 Build jobs have only `contents: read`, no OIDC permission, no cloud/model
 credentials and no persisted checkout credential. They pass no token, secret,
@@ -42,7 +42,7 @@ Neither role gets Kubernetes, IAM, Secrets Manager or any other ECR repository.
 Tags are immutable. Retrying an identical digest is a no-op; a different digest
 at an existing tag is a hard failure. Bump `toolchain-v1` in both the declaration
 and trusted copy script when deliberately updating the agent recipe. Changes to
-`.github/` and `.patchy/` require human review; patchy's intent changeset policy
+`.github/` and `.maul/` require human review; maul's intent changeset policy
 already refuses both paths. These protections assume main's maintainers remain
 trusted; no repository workflow can protect itself from a malicious main admin.
 

@@ -1,7 +1,7 @@
 // Copyright 2026 DevTheNet Labs.
 // SPDX-License-Identifier: MIT
 
-// patchy-preview-demo is a deliberately benign, stateless preview workload.
+// maul-preview-demo is a deliberately benign, stateless preview workload.
 package main
 
 import (
